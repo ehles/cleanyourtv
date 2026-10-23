@@ -1,3 +1,48 @@
+# CleanYourTV · ham_tutor R3 edition
+
+A fork of [Gathin23/cleanyourtv](https://github.com/Gathin23/cleanyourtv) whose launcher is dressed as the
+**R3TBE DeDA HT-04**, the VHF/UHF transceiver from the *ham_tutor* exam trainer: a monochrome LCD in a dark
+bezel, PT Mono type, an inverted bar for the focused item, and the app's four LCD backlights on a lamp key.
+Built and run on a **Wanbo T6R Max** projector (MediaTek MT5862, Android 9).
+
+<p align="center">
+  <img src="docs/ham-r3/backlights.jpg" alt="The launcher's home screen in the four LCD backlights: gray, dark, amber and greenish" width="900">
+</p>
+
+| Focus in the grid | Inputs menu |
+|---|---|
+| <img src="docs/ham-r3/grid.jpg" alt="Gray backlight, focus moved into the app grid: an ink frame round the tile, its name below" width="440"> | <img src="docs/ham-r3/inputs.jpg" alt="Gray backlight, the Inputs menu open: an LCD panel with an inverted bar on the focused row" width="440"> |
+
+### What is different from upstream
+
+- **The LCD look.** The grey LCD (`#B9BCB8`) with ink `#1F2221` from ham_tutor's `LcdPalette`, a light case and a
+  dark bezel round it, PT Mono for every label and Share Tech Mono for the clock. Buttons and menu rows invert when
+  focused, as the app's selected row does; a tile gets an ink cursor frame instead of the glass highlight.
+- **Four backlights.** The lamp key in the top bar cycles **gray → amber → greenish → dark**, the order the app
+  uses; the choice is kept on the TV. Every colour is a theme attribute (`r3Ink`, `r3Lcd`, `r3InvBg`, `r3InvFg`,
+  `r3Panel`), so `R3Backlight` switches the whole UI, popups and Launcher settings included.
+- **Status and hint lines.** Signal bars and the Wi-Fi network name, `MEM · HOME · <backlight>` and the
+  frequency on top; `◄► ПРИЛОЖЕНИЕ  ▲▼ РЯД  OK ЗАПУСК` along the bottom, with dashed rules like the app's lists.
+  Android 9 and newer only hand an app the network name while location is on.
+- **Its own key sounds.** A soft tick for focus moves and a lower one for OK replace the system click inside the
+  launcher (`nav_sound` in `config.xml`, `NavSound.java`). The system's Sounds setting still mutes them.
+
+The rest, debloat lists, tools and the safety rules, is upstream as it was. The APK is about 560 KB with the
+fonts, over upstream's 480 KB gate, which only matters for pull requests there.
+
+### Build and install
+
+```bash
+TV_HOST=<tv ip> launcher/build-and-install.sh
+```
+
+Add `TV_PORT=<port>` when the set's network ADB is not on 5555. JDK 17 and Android SDK 34, as upstream.
+
+Fonts: PT Mono (ParaType), Share Tech Mono (Carrois), Michroma and IBM Plex Mono (in the LCD decoration), all
+under the SIL Open Font License; the texts are in `launcher/FONT-LICENSE-OFL-*.txt`.
+
+---
+
 <p align="center">
   <a href="https://cleanyour.tv"><img src="https://raw.githubusercontent.com/Gathin23/cleanyourtv/main/docs/banner.png" alt="CleanYourTV. Your TV, minus the ads. Strip the bloatware from any Android TV or Google TV over Wi-Fi and replace the ad-filled home screen with a clean launcher that looks like an Apple TV. No root, no cable, nothing uninstalled, and a one-line restore." width="800"></a>
 </p>
