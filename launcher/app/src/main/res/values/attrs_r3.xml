@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ham_tutor R3 look: the LCD palette (lib/theme/r3_theme.dart LcdPalette), set per backlight by R3Backlight. -->
+<resources>
+    <attr name="r3Lcd" format="color" />
+    <attr name="r3Ink" format="color" />
+    <attr name="r3InvBg" format="color" />
+    <attr name="r3InvFg" format="color" />
+    <!-- Popup panels: the LCD a step towards the ink, so a menu reads as its own box. -->
+    <attr name="r3Panel" format="color" />
+</resources>

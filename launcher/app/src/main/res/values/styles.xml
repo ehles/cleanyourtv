@@ -4,6 +4,48 @@
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:colorBackground">@android:color/black</item>
         <item name="android:windowAnimationStyle">@null</item>
+        <!-- The gray backlight until R3Backlight applies the chosen one. -->
+        <item name="r3Lcd">#FFB9BCB8</item>
+        <item name="r3Ink">#FF1F2221</item>
+        <item name="r3InvBg">#FF1F2221</item>
+        <item name="r3InvFg">#FFB9BCB8</item>
+        <item name="r3Panel">#FFC2C5C1</item>
+    </style>
+
+    <!-- ham_tutor LcdPalette, one style per backlight, applied over any activity theme by R3Backlight. -->
+    <style name="R3Backlight" />
+    <style name="R3Backlight.Dark">
+        <item name="r3Lcd">#FF23292B</item>
+        <item name="r3Ink">#FFC3CFCF</item>
+        <item name="r3InvBg">#FF9DB0B1</item>
+        <item name="r3InvFg">#FF1E2426</item>
+        <item name="r3Panel">#FF2C3335</item>
+    </style>
+    <style name="R3Backlight.Gray">
+        <item name="r3Lcd">#FFB9BCB8</item>
+        <item name="r3Ink">#FF1F2221</item>
+        <item name="r3InvBg">#FF1F2221</item>
+        <item name="r3InvFg">#FFB9BCB8</item>
+        <item name="r3Panel">#FFC2C5C1</item>
+    </style>
+    <style name="R3Backlight.Amber">
+        <item name="r3Lcd">#FF1E1A13</item>
+        <item name="r3Ink">#FFF0B457</item>
+        <item name="r3InvBg">#FFF0B457</item>
+        <item name="r3InvFg">#FF1E1A13</item>
+        <item name="r3Panel">#FF2A2419</item>
+    </style>
+    <style name="R3Backlight.Green">
+        <item name="r3Lcd">#FFB3BBAD</item>
+        <item name="r3Ink">#FF1F241E</item>
+        <item name="r3InvBg">#FF1F241E</item>
+        <item name="r3InvFg">#FFB3BBAD</item>
+        <item name="r3Panel">#FFBCC4B6</item>
+    </style>
+
+    <!-- nav_sound: the system clicks off for every view, so only NavSound plays. -->
+    <style name="Theme.TvHome.Quiet">
+        <item name="android:soundEffectsEnabled">false</item>
     </style>
 
     <!-- Frosted pill, tvOS style. -->

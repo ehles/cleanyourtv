@@ -343,8 +343,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (NavSound.enabled(this)) setTheme(R.style.Theme_TvHome_Quiet);
         super.onCreate(savedInstanceState);
+        R3Backlight.apply(this);
         setContentView(R.layout.activity_main);
+        ((TextView) findViewById(R.id.r3_status_mid)).setText(getString(R.string.r3_status_mid, R3Backlight.name(this)));
+        if (NavSound.enabled(this)) NavSound.watch(getWindow().getDecorView());
         density = getResources().getDisplayMetrics().density;
         // config.xml, overlaid by config.json from a pushed theme (see Config and tools/theme.sh).
         Config cfg = Config.load(this);
@@ -378,7 +382,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         coocaaSources = cfg.coocaaSources;
 
         root = findViewById(R.id.root);
-        root.setBackgroundColor(cfg.backgroundColor);
+        // ham_tutor R3: the transceiver and its LCD (r3_screen) stand in for background_color.
+        root.setBackgroundResource(R.drawable.r3_screen);
         // root fills the window with an opaque colour (Config keeps background_color opaque), so the window's own
         // black under it is a second full-screen fill on every frame for nothing. The starting window still uses
         // the theme's background, so launch looks the same.
@@ -500,7 +505,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             public void onChildViewDetachedFromWindow(@NonNull View v) {
             }
         });
-        if (dockRow) grid.addItemDecoration(new DockDecoration(COLUMNS, density, cinematic, cfg.alwaysShowNames, cfg.dockOpacity, cfg.dockGlass, cfg.dockEvenPadding));
+        if (dockRow) {
+            DockDecoration dock = new DockDecoration(COLUMNS, density, cinematic, cfg.alwaysShowNames, cfg.dockOpacity,
+                    cfg.dockGlass, cfg.dockEvenPadding);
+            dock.setInk(R3Backlight.ink(this, 0));
+            grid.addItemDecoration(dock);
+        }
         // Reduced motion: the tiles are simply there, with no entrance (reloadApps skips it there too).
         if (animations && !reducedMotion) {
             grid.setLayoutAnimation(new LayoutAnimationController(
@@ -660,6 +670,12 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         btnSettings.setOnKeyListener(pillKeys);
         btnReorder.setOnKeyListener(pillKeys);
         btnLibraryTop.setOnKeyListener(pillKeys);
+        View btnBacklight = findViewById(R.id.btnBacklight);
+        btnBacklight.setOnKeyListener(pillKeys);
+        btnBacklight.setOnClickListener(v -> {
+            R3Backlight.cycle(this);
+            recreate();
+        });
         if (advancedEffects) {
             for (View button : new View[]{btnInputs, btnWifi, btnReorder, btnLibraryTop, btnSettings}) {
                 button.setOnFocusChangeListener((view, focused) -> view.animate()
@@ -1109,6 +1125,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
      */
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+        NavSound.onKey(event, getCurrentFocus());
+        return handleKey(event) || NavSound.moveFocus(event, getCurrentFocus());
+    }
+
+    private boolean handleKey(KeyEvent event) {
         if (handleSettingsKey(event)) return true;
         if (tileMenuEnabled && !reordering && openPopup == null && cardPrompt == null
                 && event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
@@ -1694,7 +1715,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         String text = getString(R.string.last_opened, rel);
         SpannableString line = new SpannableString(text);
         int at = text.indexOf(rel);
-        if (at >= 0) line.setSpan(new ForegroundColorSpan(0xFFFFFFFF), at, at + rel.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (at >= 0) line.setSpan(new ForegroundColorSpan(R3Backlight.ink(this, 0xFF)), at, at + rel.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         heroMeta.setText(line);
         heroMeta.setVisibility(View.VISIBLE);
     }
@@ -1718,7 +1739,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         for (int i = 0; i < count; i++) {
             View dot = heroDots.getChildAt(rtlAppGrid ? count - 1 - i : i);
             boolean on = i == position;
-            ((GradientDrawable) dot.getBackground()).setColor(on ? 0xFFFFFFFF : 0x4DFFFFFF);
+            ((GradientDrawable) dot.getBackground()).setColor(on ? R3Backlight.ink(this, 0xFF) : R3Backlight.ink(this, 0x4D));
             ViewGroup.LayoutParams lp = dot.getLayoutParams();
             int w = (int) ((on ? 20 : 6) * density);
             if (lp.width != w) {
@@ -1751,26 +1772,26 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
                 boolean rtl = getResources().getBoolean(R.bool.rtl_menu_bar);
                 paint.setShader(new RadialGradient(
                         w * (rtl ? 0.20f : 0.80f), h * 0.06f, w * 0.78f,
-                        new int[]{0xA6FFFFFF, 0x47FFFFFF, 0x00FFFFFF},
+                        new int[]{R3Backlight.ink(this, 0xA6), R3Backlight.ink(this, 0x47), R3Backlight.ink(this, 0x00)},
                         new float[]{0f, 0.5f, 1f},
                         Shader.TileMode.CLAMP));
             } else if (Config.GLOW_HORIZON.equals(glowStyle)) {
                 // The colour washes down from the top edge and fades out three quarters of the way down,
                 // with a brighter band along the top like light over a horizon.
                 paint.setShader(new LinearGradient(0, 0, 0, h * 0.75f,
-                        new int[]{0x66FFFFFF, 0x24FFFFFF, 0x00FFFFFF},
+                        new int[]{R3Backlight.ink(this, 0x66), R3Backlight.ink(this, 0x24), R3Backlight.ink(this, 0x00)},
                         new float[]{0f, 0.4f, 1f},
                         Shader.TileMode.CLAMP));
                 canvas.drawRect(0, 0, w, h, paint);
                 paint.setShader(new RadialGradient(
                         w * 0.5f, -h * 0.25f, w * 0.55f,
-                        new int[]{0x40FFFFFF, 0x00FFFFFF},
+                        new int[]{R3Backlight.ink(this, 0x40), R3Backlight.ink(this, 0x00)},
                         null,
                         Shader.TileMode.CLAMP));
             } else {
                 paint.setShader(new RadialGradient(
                         w * 0.32f, h * 0.42f, w * 0.62f,
-                        new int[]{0x5CFFFFFF, 0x26FFFFFF, 0x00FFFFFF},
+                        new int[]{R3Backlight.ink(this, 0x5C), R3Backlight.ink(this, 0x26), R3Backlight.ink(this, 0x00)},
                         new float[]{0f, 0.45f, 1f},
                         Shader.TileMode.CLAMP));
             }
@@ -2082,7 +2103,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
         }
         focusTile(target);
         // The default focus search clicks for Left/Right; Up/Down are handled here, so click for them too.
-        grid.playSoundEffect(keyCode == KeyEvent.KEYCODE_DPAD_UP
+        NavSound.navigate(grid, keyCode == KeyEvent.KEYCODE_DPAD_UP
                 ? SoundEffectConstants.NAVIGATION_UP : SoundEffectConstants.NAVIGATION_DOWN);
         return true;
     }
@@ -2285,10 +2306,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             row.append(session.shortName(getResources())).append("  ").append(when.format(session.start).toUpperCase(Locale.getDefault()));
             int color;
             switch (s.statuses.get(i)) {
-                case DONE: color = 0x47FFFFFF; break;
+                case DONE: color = R3Backlight.ink(this, 0x47); break;
                 case LIVE: color = RACE_RED; break;
-                case NEXT: color = 0xFFFFFFFF; break;
-                default: color = 0x99FFFFFF;
+                case NEXT: color = R3Backlight.ink(this, 0xFF); break;
+                default: color = R3Backlight.ink(this, 0x99);
             }
             row.setSpan(new android.text.style.ForegroundColorSpan(color), start, row.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -2380,6 +2401,13 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
             if (!TextUtils.equals(btnWifi.getText(), label)) btnWifi.setText(label);
         } else if (!TextUtils.equals(btnWifi.getText(), text)) {
             btnWifi.setText(text);
+        }
+        // ham_tutor R3 status line: the signal as bars, then the network name, as the app's LCD header shows them.
+        TextView r3Status = findViewById(R.id.r3_status_left);
+        if (r3Status != null) {
+            int bars = online ? (flame > 0 ? flame : 4) : 0;
+            String line = "▮▮▮▮".substring(0, bars) + (bars > 0 ? "  " : "") + text;
+            if (!TextUtils.equals(r3Status.getText(), line)) r3Status.setText(line);
         }
         if (wifiIconOnly) {
             btnWifi.setContentDescription(btnWifi.getText());
@@ -2789,7 +2817,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
     }
 
     private PopupWindow glassPopup(View panel, int width) {
-        final PopupWindow popup = new PopupWindow(panel, width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        final PopupWindow popup = new PopupWindow(NavSound.wrap(panel), width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));   // needed for Back to dismiss
         popup.setOutsideTouchable(true);
         popup.setAnimationStyle(0);
@@ -2814,7 +2842,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
     private void addSeparator(LinearLayout rows) {
         View line = new View(this);
-        line.setBackgroundColor(0x1FFFFFFF);
+        line.setBackgroundColor(R3Backlight.ink(this, 0x1F));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) density);
         int m = (int) (6 * density), h = (int) (12 * density);
         lp.setMargins(h, m, h, m);
@@ -3014,7 +3042,7 @@ public class MainActivity extends Activity implements AppAdapter.TileListener {
 
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(panel);
+        dialog.setContentView(NavSound.wrap(panel));
         dialog.setCanceledOnTouchOutside(false);
         Window w = dialog.getWindow();
         if (w != null) {

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ham_tutor R3: the clock's divider, the ink at 20%; a background cannot take a colour state list directly. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/r3ink_33" />
+</shape>

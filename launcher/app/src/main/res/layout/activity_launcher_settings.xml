@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF101419"
+    android:background="?attr/r3Lcd"
     android:fillViewport="true">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/launcher_settings"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="34sp" />
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:text="@string/columns_label"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="@string/rows_below_dock_label"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
             android:text="@string/dock_opacity_label"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="20sp" />
 
         <LinearLayout

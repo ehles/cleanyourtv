@@ -145,4 +145,16 @@
     <!-- Cinematic top shelf (cinematic_home): the line under the focused dock app's name; %1$s is when it was
          last opened, e.g. "5 minutes ago" or "yesterday, 9:40 pm". -->
     <string name="last_opened">Last opened %1$s</string>
+    <!-- ham_tutor R3 decoration: the LCD status and hint lines, in the app's own words. -->
+    <string name="r3_status_left" translatable="false"></string>
+    <string name="r3_status_mid" translatable="false">MEM · HOME · %1$s</string>
+    <string name="r3_backlight_dark" translatable="false">ТЁМНАЯ</string>
+    <string name="r3_backlight_gray" translatable="false">СЕРАЯ</string>
+    <string name="r3_backlight_amber" translatable="false">ЯНТАРНАЯ</string>
+    <string name="r3_backlight_green" translatable="false">ЗЕЛЕНОВАТАЯ</string>
+    <string name="r3_backlight" translatable="false">Подсветка</string>
+    <string name="r3_status_right" translatable="false">HT-04  145.500</string>
+    <string name="r3_hint_left" translatable="false">◄► ПРИЛОЖЕНИЕ</string>
+    <string name="r3_hint_mid" translatable="false">▲▼ РЯД</string>
+    <string name="r3_hint_right" translatable="false">OK ЗАПУСК</string>
 </resources>

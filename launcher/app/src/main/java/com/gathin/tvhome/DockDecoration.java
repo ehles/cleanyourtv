@@ -43,10 +43,16 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         this.namesRoom = names ? 22 * density : 0;
         this.lightGlass = lightGlass;
         this.evenPadding = evenPadding;
-        band.setColor(translucent ? 0x8C121014 : (Math.round(opacity * 2.55f) << 24) | 0x141416);
+        band.setColor(translucent ? 0x8C121014 : (Math.round(opacity * 0.2f) << 24) | 0x1F2221);
         edge.setStyle(Paint.Style.STROKE);
-        edge.setStrokeWidth(density);
-        edge.setColor(lightGlass ? 0x38FFFFFF : translucent ? 0x26FFFFFF : 0x1FFFFFFF);
+        edge.setStrokeWidth(2 * density);
+        edge.setColor(lightGlass ? 0x381F2221 : translucent ? 0x261F2221 : 0xD91F2221);
+    }
+
+    /** ham_tutor R3: the band's tint and edge in the backlight's ink (R3Backlight), as 0xRRGGBB. */
+    void setInk(int rgb) {
+        band.setColor((band.getColor() & 0xFF000000) | rgb);
+        edge.setColor((edge.getColor() & 0xFF000000) | rgb);
     }
 
     /** Concentric corners: the band's radius is the tiles' radius plus the band's padding around them. */
@@ -116,12 +122,12 @@ public class DockDecoration extends RecyclerView.ItemDecoration {
         } else {
             // dock_even_padding off: the band as before, with its fixed 26 dp corners.
             rect.inset(-side, -pad);
-            radius = 26 * density;
+            radius = 8 * density;
         }
         rect.bottom += namesRoom;
         if (lightGlass && (rect.top != shaderTop || rect.bottom != shaderBottom)) {
             // The pills' glass (pill_bg: white, 18% fading to 8%), a little fainter over this much larger area.
-            band.setShader(new LinearGradient(0, rect.top, 0, rect.bottom, 0x24FFFFFF, 0x0DFFFFFF,
+            band.setShader(new LinearGradient(0, rect.top, 0, rect.bottom, 0x241F2221, 0x0D1F2221,
                     Shader.TileMode.CLAMP));
             shaderTop = rect.top;
             shaderBottom = rect.bottom;

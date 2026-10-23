@@ -3,7 +3,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF000000">
+    android:background="@drawable/r3_screen">
 
     <!-- Time-of-day backdrop, drawn once a minute (config.xml sky_intensity; 0 keeps it hidden). -->
     <com.gathin.tvhome.SkyView
@@ -21,6 +21,19 @@
         android:scaleType="fitXY"
         android:alpha="0"
         android:visibility="gone"
+        android:importantForAccessibility="no" />
+
+    <!-- ham_tutor R3: logo, frequency and S-meter faintly on the LCD, in the backlight's ink. -->
+    <ImageView
+        android:layout_width="385dp"
+        android:layout_height="160dp"
+        android:layout_gravity="top|left"
+        android:layout_marginStart="525dp"
+        android:layout_marginTop="131dp"
+        android:src="@drawable/r3_decor"
+        android:tint="?attr/r3Ink"
+        android:alpha="0.22"
+        android:scaleType="fitXY"
         android:importantForAccessibility="no" />
 
     <!-- Ambient glow in the colour of the focused dock app. -->
@@ -63,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="#B3FFFFFF"
+                android:textColor="@color/r3ink_b3"
                 android:textSize="12sp"
                 android:fontFamily="@string/font_medium"
                 android:letterSpacing="0.22"
@@ -76,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:singleLine="true"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="34sp"
             android:fontFamily="@string/font_light"
             android:letterSpacing="-0.01"
@@ -88,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:singleLine="true"
-            android:textColor="#99FFFFFF"
+            android:textColor="@color/r3ink_99"
             android:textSize="12sp"
             android:fontFamily="@string/font_medium"
             android:letterSpacing="0.12" />
@@ -116,7 +129,7 @@
             android:id="@+id/heroName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFFFF"
+            android:textColor="?attr/r3Ink"
             android:textSize="48sp"
             android:fontFamily="@string/font_light"
             android:letterSpacing="-0.02"
@@ -131,7 +144,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="12dp"
             android:singleLine="true"
-            android:textColor="#B3FFFFFF"
+            android:textColor="@color/r3ink_b3"
             android:textSize="15sp"
             android:fontFamily="@string/font_light"
             android:visibility="gone" />
@@ -152,7 +165,8 @@
         android:orientation="vertical"
         android:paddingStart="56dp"
         android:paddingEnd="56dp"
-        android:paddingTop="26dp"
+        android:paddingTop="50dp"
+        android:paddingBottom="44dp"
         android:clipChildren="false"
         android:clipToPadding="false">
 
@@ -183,7 +197,7 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:layout_marginStart="4dp"
-                    android:textColor="#8CFFFFFF"
+                    android:textColor="@color/r3ink_8c"
                     android:textSize="12sp"
                     android:fontFamily="@string/font_medium"
                     android:letterSpacing="0.22"
@@ -201,10 +215,10 @@
                         android:layout_height="wrap_content"
                         android:format12Hour="h:mm"
                         android:format24Hour="HH:mm"
-                        android:textColor="#FFFFFFFF"
+                        android:textColor="?attr/r3Ink"
                         android:textSize="52sp"
-                        android:fontFamily="@string/font_light"
-                        android:letterSpacing="-0.04"
+                        android:fontFamily="@font/share_tech_mono"
+                        android:letterSpacing="0.02"
                         android:includeFontPadding="false" />
 
                     <TextClock
@@ -216,7 +230,7 @@
                         android:layout_marginBottom="8dp"
                         android:format12Hour="a"
                         android:format24Hour=""
-                        android:textColor="#B3FFFFFF"
+                        android:textColor="@color/r3ink_b3"
                         android:textSize="15sp"
                         android:fontFamily="@string/font_medium"
                         android:letterSpacing="0.08"
@@ -229,7 +243,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="8dp"
-                        android:background="#33FFFFFF" />
+                        android:background="@drawable/r3_divider" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -247,7 +261,7 @@
                             android:layout_height="wrap_content"
                             android:singleLine="true"
                             android:ellipsize="end"
-                            android:textColor="#E6FFFFFF"
+                            android:textColor="@color/r3ink_e6"
                             android:textSize="17sp"
                             android:fontFamily="@string/font_regular"
                             android:letterSpacing="0.02"
@@ -265,7 +279,7 @@
                             android:ellipsize="end"
                             android:format12Hour="@string/date_format_home"
                             android:format24Hour="@string/date_format_home"
-                            android:textColor="#A6FFFFFF"
+                            android:textColor="@color/r3ink_a6"
                             android:textSize="14sp"
                             android:fontFamily="@string/font_regular"
                             android:letterSpacing="0.14"
@@ -287,7 +301,7 @@
                 android:layout_marginTop="2dp"
                 android:singleLine="true"
                 android:ellipsize="end"
-                android:textColor="#D9FFFFFF"
+                android:textColor="@color/r3ink_d9"
                 android:textSize="14sp"
                 android:fontFamily="@string/font_medium"
                 android:letterSpacing="0.04"
@@ -337,6 +351,14 @@
                     android:drawableStart="@drawable/ic_apps"
                     android:nextFocusDown="@+id/grid" />
 
+                <!-- ham_tutor R3: the lamp key, cycling the LCD backlight. -->
+                <TextView
+                    android:id="@+id/btnBacklight"
+                    style="@style/TopButtonIcon"
+                    android:contentDescription="@string/r3_backlight"
+                    android:drawableStart="@drawable/ic_backlight"
+                    android:nextFocusDown="@+id/grid" />
+
                 <TextView
                     android:id="@+id/btnSettings"
                     style="@style/TopButton"
@@ -367,6 +389,108 @@
                 android:scrollbars="none"
                 android:descendantFocusability="afterDescendants" />
         </FrameLayout>
+    </LinearLayout>
+
+    <!-- ham_tutor R3: the LCD status line (lcd_list_screen's header), static decoration. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:paddingBottom="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/r3_rule_bottom"
+        android:importantForAccessibility="no">
+        <TextView
+            android:id="@+id/r3_status_left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="@string/r3_status_left"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
+        <TextView
+            android:id="@+id/r3_status_mid"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/r3_status_mid"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
+        <TextView
+            android:id="@+id/r3_status_right"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/r3_status_right"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
+    </LinearLayout>
+
+    <!-- ham_tutor R3: the hint line under the LCD (lcd_list_screen's footer); grid rows scroll under it. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="14dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:paddingTop="4dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/r3_footer_bg"
+        android:importantForAccessibility="no">
+        <TextView
+            android:id="@+id/r3_hint_left"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="@string/r3_hint_left"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
+        <TextView
+            android:id="@+id/r3_hint_mid"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/r3_hint_mid"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
+        <TextView
+            android:id="@+id/r3_hint_right"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="@string/r3_hint_right"
+            android:textColor="?attr/r3Ink"
+            android:textSize="12sp"
+            android:fontFamily="@string/font_medium"
+            android:letterSpacing="0.04" />
     </LinearLayout>
 
     <!-- The single floating glass highlight that springs between tiles. -->

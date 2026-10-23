@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ham_tutor R3 hint line: the LCD colour, so grid rows scroll under it, with a dashed rule on top. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/r3Lcd" />
+        </shape>
+    </item>
+    <item android:gravity="top|fill_horizontal" android:height="2dp">
+        <bitmap android:src="@drawable/r3_dash" android:tileModeX="repeat" android:tint="?attr/r3Ink" />
+    </item>
+</layer-list>
